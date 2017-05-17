@@ -1,6 +1,7 @@
 package com.example.android.timercigarete;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,38 @@ public class MainActivity extends AppCompatActivity {
 
 
         mDbHelper = new TimCigDbHelper(this);
+    }
+
+    private void displayDatabaseInfo() {
+        // To access our database, we instantiate our subclass if SQLiteOpenHelper
+        // and pass the context, which is the current activity.
+        TimCigDbHelper mDbHelper = new TimCigDbHelper(this);
+
+        // Create and /or open a databse to read from it
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String[] projection = {
+                TimCigContract.TimCigEntry._ID,
+                TimCigContract.TimCigEntry.COLUM_PLACE,
+                TimCigContract.TimCigEntry.COLUM_TIME,
+        };
+
+        Cursor cursor = db.query(
+                TimCigContract.TimCigEntry.TABLE_NAME, // the table to query
+                projection, // the colums to return
+                null, // the colums for the WHERE clause
+                null, // the values for the WHERE clause
+                null, // Dont group the rows
+                null, // Dont filter by row groups
+                null  // The sort order
+        );
+
+        try {
+            // Create a header
+        }
+
+
+
     }
 
     private void insertTrack() {
