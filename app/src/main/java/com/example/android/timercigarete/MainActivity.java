@@ -1,15 +1,23 @@
 package com.example.android.timercigarete;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.timercigarete.data.TimCigContract;
+import com.example.android.timercigarete.data.TimCigDbHelper;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TimCigDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        mDbHelper = new TimCigDbHelper(this);
     }
+
+    private void insertTrack() {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TimCigContract.TimCigEntry.COLUM_PLACE, "work");
+        values.put(TimCigContract.TimCigEntry.COLUM_TIME, 6);
+
+        long newRowID = db.insert(TimCigContract.TimCigEntry.TABLE_NAME, null, values);
+
+        Log.v("MainActivity", "New Row ID " + newRowID);
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
