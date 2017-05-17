@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.android.timercigarete.data.TimCigContract;
 import com.example.android.timercigarete.data.TimCigDbHelper;
@@ -64,8 +65,44 @@ public class MainActivity extends AppCompatActivity {
                 null  // The sort order
         );
 
+        TextView displayView = (TextView) findViewById(R.id.ponerTextoAqui);
+
         try {
-            // Create a header
+            // Create a header in the TextView.
+            // The table contains <number of rows in Cursor>.
+
+            //In the while loop below, iterate through the rows of the cursor and display
+            // the information from each colum in this order.
+            displayView.setText("the table contains "+ cursor.getCount() + " cigarettes.\n\n");
+            displayView.append(TimCigContract.TimCigEntry._ID + " - " +
+                    TimCigContract.TimCigEntry.COLUM_PLACE + " - " +
+                    TimCigContract.TimCigEntry.COLUM_TIME + "\n");
+
+            // Figure out the index of each colum
+            int idColumIndex = cursor.getColumnIndex(TimCigContract.TimCigEntry._ID);
+            int placeColumIndex = cursor.getColumnIndex(TimCigContract.TimCigEntry.COLUM_PLACE);
+            int timeColumIndex = cursor.getColumnIndex(TimCigContract.TimCigEntry.COLUM_TIME);
+
+            // Iterate trough all the returned rows in the cursor
+            while (cursor.moveToNext()) {
+                // Use that index to extract the String or int value of the word
+                // at the current row the cursor in on.
+                int currentID = cursor.getInt(idColumIndex);
+                String currentPlace = cursor.getString(placeColumIndex);
+                int currentTime = cursor.getInt(timeColumIndex);
+
+                //Display the values from each column of the current row in the cursor
+                displayView.append(
+                        "\n" +
+                                currentID + " - " +
+                                currentPlace + " - " +
+                                currentTime
+                );
+            }
+        } finally {
+            //Allways close the cursor if you have done all things allready.
+            cursor.close();
+
         }
 
 
