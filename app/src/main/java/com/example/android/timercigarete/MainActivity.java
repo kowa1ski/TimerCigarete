@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper = new TimCigDbHelper(this);
     }
 
-    private void displayDatabaseInfo() {
+    private Cursor displayDatabaseInfo() {
         // To access our database, we instantiate our subclass if SQLiteOpenHelper
         // and pass the context, which is the current activity.
         TimCigDbHelper mDbHelper = new TimCigDbHelper(this);
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        return cursor;
     }
 
     private void insertTrack() {
